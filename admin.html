@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Soul Admin | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for Sales Graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .sidebar-link.active { background-color: #e0e7ff; color: #4338ca; border-right: 3px solid #4338ca; }
+        
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col z-10">
+        <div class="h-16 flex items-center px-6 border-b border-gray-200">
+            <div class="bg-yellow-400 p-1.5 rounded-lg text-white mr-2">
+                <i data-lucide="sun" size="20"></i>
+            </div>
+            <span class="font-bold text-gray-800 text-lg">Little Soul <span class="text-blue-500">Admin</span></span>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-4">
+            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-link active flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i data-lucide="layout-dashboard" size="18" class="mr-3"></i>
+                Dashboard
+            </a>
+            <a href="#" onclick="switchTab('products')" id="nav-products" class="sidebar-link flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i data-lucide="book" size="18" class="mr-3"></i>
+                Products
+            </a>
+            <a href="#" onclick="switchTab('orders')" id="nav-orders" class="sidebar-link flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i data-lucide="shopping-bag" size="18" class="mr-3"></i>
+                Sales & Orders
+            </a>
+            <a href="#" onclick="switchTab('settings')" id="nav-settings" class="sidebar-link flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i data-lucide="settings" size="18" class="mr-3"></i>
+                Settings
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-200">
+            <button class="flex items-center text-gray-500 hover:text-red-500 transition-colors w-full">
+                <i data-lucide="log-out" size="18" class="mr-2"></i>
+                Log Out
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
+            <h2 id="page-title" class="text-xl font-bold text-gray-800">Overview</h2>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    Live Database Connected
+                </div>
+                <div class="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">A</div>
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-8" id="main-view">
+            <!-- Content injected via JS -->
+            <div class="flex items-center justify-center h-full">
+                <div class="loader"></div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Modal -->
+        <div id="product-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 backdrop-blur-sm">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 transform transition-all">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800" id="modal-title">Add Product</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x"></i></button>
+                </div>
+                <form id="product-form" onsubmit="handleProductSubmit(event)">
+                    <input type="hidden" id="edit-id">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Book Title</label>
+                            <input type="text" id="inp-title" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+                                <input type="number" step="0.01" id="inp-price" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Part #</label>
+                                <input type="number" id="inp-part" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select id="inp-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="christianity">Christianity</option>
+                                <option value="islam">Islam</option>
+                                <option value="hinduism">Hinduism</option>
+                                <option value="buddhism">Buddhism</option>
+                                <option value="sikhism">Sikhism</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Cover Color Style</label>
+                            <select id="inp-color" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="bg-blue-500">Blue (Christianity)</option>
+                                <option value="bg-green-500">Green (Islam)</option>
+                                <option value="bg-orange-500">Orange (Hinduism)</option>
+                                <option value="bg-yellow-500">Yellow (Buddhism)</option>
+                                <option value="bg-purple-500">Purple (Sikhism)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 shadow-sm">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase Configuration -->
+    <script type="module">
+        // FIX: Added signInWithCustomToken to import
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let products = [];
+        let orders = [];
+        let unsubscribeProducts = null;
+        let unsubscribeOrders = null;
+
+        // Initialize
+        async function init() {
+            try {
+                if(typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                   await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                   await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth failed", error);
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    setupListeners(user.uid);
+                }
+            });
+        }
+
+        function setupListeners(uid) {
+            // Fetch Products
+            const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+            unsubscribeProducts = onSnapshot(prodRef, (snapshot) => {
+                products = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderCurrentTab();
+            });
+
+            // Fetch Orders
+            const orderRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+            unsubscribeOrders = onSnapshot(orderRef, (snapshot) => {
+                orders = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                // Sort by date manually in JS
+                orders.sort((a, b) => b.timestamp - a.timestamp);
+                renderCurrentTab();
+            });
+        }
+
+        // Global State
+        let currentTab = 'dashboard';
+        window.switchTab = (tab) => {
+            currentTab = tab;
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(`nav-${tab}`).classList.add('active');
+            renderCurrentTab();
+        };
+
+        function renderCurrentTab() {
+            const container = document.getElementById('main-view');
+            const title = document.getElementById('page-title');
+            
+            lucide.createIcons();
+
+            if (currentTab === 'dashboard') {
+                title.innerText = "Dashboard Overview";
+                const totalSales = orders.reduce((acc, curr) => acc + (curr.total || 0), 0);
+                const recentOrders = orders.slice(0, 5);
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                            <div class="text-gray-500 text-sm font-medium mb-2">Total Revenue</div>
+                            <div class="text-3xl font-bold text-gray-800">$${totalSales.toFixed(2)}</div>
+                            <div class="text-green-500 text-xs font-bold mt-2 flex items-center"><i data-lucide="trending-up" size="14" class="mr-1"></i> Lifetime</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                            <div class="text-gray-500 text-sm font-medium mb-2">Total Orders</div>
+                            <div class="text-3xl font-bold text-gray-800">${orders.length}</div>
+                            <div class="text-blue-500 text-xs font-bold mt-2">orders processed</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                            <div class="text-gray-500 text-sm font-medium mb-2">Active Products</div>
+                            <div class="text-3xl font-bold text-gray-800">${products.length}</div>
+                            <div class="text-gray-400 text-xs font-bold mt-2">books in store</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                            <h3 class="font-bold text-gray-800 mb-4">Recent Sales</h3>
+                            ${recentOrders.length === 0 ? '<p class="text-gray-400 text-sm">No sales yet.</p>' : ''}
+                            <div class="space-y-4">
+                                ${recentOrders.map(order => `
+                                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
+                                        <div>
+                                            <div class="font-medium text-sm text-gray-800">Order #${order.id.slice(0,6)}</div>
+                                            <div class="text-xs text-gray-400">${new Date(order.timestamp).toLocaleDateString()}</div>
+                                        </div>
+                                        <div class="font-bold text-green-600">+$${order.total.toFixed(2)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-center items-center text-center">
+                            <div class="bg-blue-50 p-4 rounded-full mb-4">
+                                <i data-lucide="database" class="text-blue-500" size="32"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Database Actions</h3>
+                            <p class="text-sm text-gray-500 mb-6">If your store is empty, click below to seed it with default books.</p>
+                            <button onclick="seedDatabase()" class="bg-gray-800 text-white px-6 py-2 rounded-lg font-medium hover:bg-black transition-colors">
+                                Initialize Default Data
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (currentTab === 'products') {
+                title.innerText = "Product Management";
+                container.innerHTML = `
+                    <div class="flex justify-between mb-6">
+                        <div class="relative">
+                            <input type="text" placeholder="Search books..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i data-lucide="search" size="16" class="absolute left-3 top-2.5 text-gray-400"></i>
+                        </div>
+                        <button onclick="openModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 flex items-center">
+                            <i data-lucide="plus" size="16" class="mr-2"></i> Add Book
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3">Book Title</th>
+                                    <th class="px-6 py-3">Category</th>
+                                    <th class="px-6 py-3">Part</th>
+                                    <th class="px-6 py-3">Price</th>
+                                    <th class="px-6 py-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                ${products.map(p => `
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-medium text-gray-800">${p.title}</td>
+                                        <td class="px-6 py-4"><span class="capitalize px-2 py-1 rounded-full text-xs font-bold ${getCatBadge(p.category)}">${p.category}</span></td>
+                                        <td class="px-6 py-4 text-gray-500">#${p.part}</td>
+                                        <td class="px-6 py-4 font-bold">$${p.price}</td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <button onclick="editProduct('${p.id}')" class="text-blue-600 hover:text-blue-800 font-medium">Edit</button>
+                                            <button onclick="deleteProduct('${p.id}')" class="text-red-500 hover:text-red-700 font-medium">Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                                ${products.length === 0 ? '<tr><td colspan="5" class="px-6 py-8 text-center text-gray-400">No products found. Seed the database!</td></tr>' : ''}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            else if (currentTab === 'orders') {
+                title.innerText = "Sales History";
+                container.innerHTML = `
+                   <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3">Order ID</th>
+                                    <th class="px-6 py-3">Date</th>
+                                    <th class="px-6 py-3">Items</th>
+                                    <th class="px-6 py-3">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                ${orders.map(o => `
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-mono text-gray-500">#${o.id.slice(0,8)}</td>
+                                        <td class="px-6 py-4">${new Date(o.timestamp).toLocaleString()}</td>
+                                        <td class="px-6 py-4 text-gray-600">${o.items.map(i => i.title).join(', ')}</td>
+                                        <td class="px-6 py-4 font-bold text-green-600">$${o.total.toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                                ${orders.length === 0 ? '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No orders yet. Go buy something!</td></tr>' : ''}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            lucide.createIcons();
+        }
+
+        function getCatBadge(cat) {
+            const map = {
+                'christianity': 'bg-blue-100 text-blue-700',
+                'islam': 'bg-green-100 text-green-700',
+                'hinduism': 'bg-orange-100 text-orange-700',
+                'buddhism': 'bg-yellow-100 text-yellow-700',
+                'sikhism': 'bg-purple-100 text-purple-700'
+            };
+            return map[cat] || 'bg-gray-100 text-gray-700';
+        }
+
+        // CRUD
+        window.openModal = () => {
+            document.getElementById('product-form').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('modal-title').innerText = "Add Product";
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('product-modal').classList.add('flex');
+        };
+
+        window.closeModal = () => {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.getElementById('product-modal').classList.remove('flex');
+        };
+
+        window.editProduct = (id) => {
+            const p = products.find(x => x.id === id);
+            if(!p) return;
+            document.getElementById('edit-id').value = p.id;
+            document.getElementById('inp-title').value = p.title;
+            document.getElementById('inp-price').value = p.price;
+            document.getElementById('inp-part').value = p.part;
+            document.getElementById('inp-category').value = p.category;
+            document.getElementById('inp-color').value = p.coverColor;
+            
+            document.getElementById('modal-title').innerText = "Edit Product";
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('product-modal').classList.add('flex');
+        };
+
+        window.handleProductSubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const data = {
+                title: document.getElementById('inp-title').value,
+                price: parseFloat(document.getElementById('inp-price').value),
+                part: parseInt(document.getElementById('inp-part').value),
+                category: document.getElementById('inp-category').value,
+                coverColor: document.getElementById('inp-color').value
+            };
+
+            const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+            try {
+                if (id) {
+                    await updateDoc(doc(prodRef, id), data);
+                } else {
+                    await addDoc(prodRef, data);
+                }
+                closeModal();
+            } catch (err) {
+                alert("Error saving: " + err.message);
+            }
+        };
+
+        window.deleteProduct = async (id) => {
+            if(confirm("Are you sure?")) {
+                const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+                await deleteDoc(doc(prodRef, id));
+            }
+        };
+
+        // Seed Data
+        window.seedDatabase = async () => {
+            const initialProducts = [
+                { category: 'christianity', title: "Noah's Big Boat", part: 1, price: 14.99, coverColor: 'bg-blue-400' },
+                { category: 'christianity', title: "The Kind Samaritan", part: 1, price: 14.99, coverColor: 'bg-blue-300' },
+                { category: 'christianity', title: "Baby Jesus Arrives", part: 1, price: 14.99, coverColor: 'bg-blue-500' },
+                { category: 'islam', title: "Ramadan Moon", part: 1, price: 14.99, coverColor: 'bg-green-400' },
+                { category: 'islam', title: "The Prophet's Kindness", part: 1, price: 14.99, coverColor: 'bg-green-500' },
+                { category: 'islam', title: "Giving Zakat", part: 2, price: 14.99, coverColor: 'bg-green-300' },
+                { category: 'hinduism', title: "Ganesha's Sweet Tooth", part: 1, price: 14.99, coverColor: 'bg-orange-400' },
+                { category: 'hinduism', title: "Rama & The Bridge", part: 1, price: 14.99, coverColor: 'bg-orange-300' },
+                { category: 'hinduism', title: "Diwali Lights", part: 1, price: 14.99, coverColor: 'bg-orange-500' },
+                { category: 'buddhism', title: "Under the Bodhi Tree", part: 1, price: 14.99, coverColor: 'bg-yellow-400' },
+                { category: 'buddhism', title: "The Elephant's Lesson", part: 1, price: 14.99, coverColor: 'bg-yellow-500' },
+                { category: 'sikhism', title: "Guru Nanak's Travels", part: 1, price: 14.99, coverColor: 'bg-purple-400' },
+                { category: 'sikhism', title: "The Golden Temple", part: 1, price: 14.99, coverColor: 'bg-purple-500' }
+            ];
+            
+            const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+            
+            for(let p of initialProducts) {
+                await addDoc(prodRef, p);
+            }
+            alert("Database seeded! Check 'Products' tab.");
+        };
+
+        init();
+    </script>
+</body>
+</html>
