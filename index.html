@@ -24,39 +24,16 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #FFE4E6; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FB7185; 
-            border-radius: 20px;
-        }
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #FFE4E6; }
+        ::-webkit-scrollbar-thumb { background: #FB7185; border-radius: 20px; }
 
         /* Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(-5%); }
-            50% { transform: translateY(5%); }
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(5%); } }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .animate-float { animation: float 3s ease-in-out infinite; }
         .animate-wiggle { animation: wiggle 2s ease-in-out infinite; }
@@ -64,57 +41,27 @@
         .animate-bounce-slow { animation: bounce-slow 4s infinite; }
         .animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        /* Card Styles: YouTube Kids inspired 'Sticker' look */
-        .sticker-card {
-            box-shadow: 0px 6px 0px 0px rgba(0,0,0,0.1);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .sticker-card:hover {
-            transform: scale(1.03) translateY(-5px);
-            box-shadow: 0px 10px 0px 0px rgba(0,0,0,0.15);
-        }
-        .sticker-card:active {
-            transform: scale(0.95);
-            box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.1);
-        }
+        .sticker-card { box-shadow: 0px 6px 0px 0px rgba(0,0,0,0.1); transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .sticker-card:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0px 10px 0px 0px rgba(0,0,0,0.15); }
+        .sticker-card:active { transform: scale(0.95); box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.1); }
 
-        /* Button Styles */
-        .btn-bouncy {
-            transition: transform 0.1s;
-        }
-        .btn-bouncy:active {
-            transform: scale(0.9);
-        }
+        .btn-bouncy { transition: transform 0.1s; }
+        .btn-bouncy:active { transform: scale(0.9); }
 
-        /* Blob Backgrounds */
-        .blob {
-            position: absolute;
-            filter: blur(40px);
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        /* Cart Modal Overlay */
-        .cart-overlay {
-            backdrop-filter: blur(8px);
-            background-color: rgba(255, 255, 255, 0.6);
-        }
+        .blob { position: absolute; filter: blur(40px); z-index: -1; opacity: 0.6; }
+        .cart-overlay { backdrop-filter: blur(8px); background-color: rgba(255, 255, 255, 0.6); }
     </style>
 </head>
 <body class="text-gray-800">
 
-    <!-- Background Decoration -->
     <div class="blob bg-yellow-300 w-64 h-64 rounded-full top-0 left-0 animate-float"></div>
     <div class="blob bg-blue-300 w-80 h-80 rounded-full bottom-0 right-0 animate-float" style="animation-delay: 1s;"></div>
     <div class="blob bg-pink-300 w-48 h-48 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
 
-    <!-- Navigation -->
     <nav class="sticky top-4 z-50 mx-4">
         <div class="bg-white/90 backdrop-blur-md border-4 border-white rounded-full shadow-[0px_4px_15px_rgba(0,0,0,0.1)] px-4 py-3 flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center gap-2 cursor-pointer btn-bouncy" onclick="goHome()">
-                <div class="bg-yellow-400 p-2 rounded-full text-white">
-                    <i data-lucide="sun" size="28"></i>
-                </div>
+                <div class="bg-yellow-400 p-2 rounded-full text-white"><i data-lucide="sun" size="28"></i></div>
                 <h1 class="text-2xl font-bold text-pink-500 tracking-tight">Little Soul <span class="text-blue-500">Stories</span></h1>
             </div>
             
@@ -128,42 +75,37 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <main id="app-content" class="max-w-6xl mx-auto px-4 py-8 pb-20">
-        <!-- Content injected via JS -->
+        <!-- Loader initially -->
+        <div class="flex flex-col items-center justify-center py-20 animate-pulse">
+            <i data-lucide="book-open" class="text-pink-400 w-16 h-16 mb-4"></i>
+            <p class="font-bold text-gray-400">Loading your stories...</p>
+        </div>
     </main>
 
-    <!-- Cart Modal (Hidden by default) -->
+    <!-- Cart Modal -->
     <div id="cart-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 cart-overlay transition-opacity duration-300">
         <div class="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl border-4 border-white p-6 md:p-8 animate-slide-up relative">
-            
-            <!-- Close Button -->
             <button onclick="toggleCart()" class="absolute top-4 right-4 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition btn-bouncy">
                 <i data-lucide="x" class="text-gray-500"></i>
             </button>
-
             <div class="text-center mb-6">
-                <h2 class="text-3xl font-extrabold text-gray-800">Your Basket ðŸ§º</h2>
+                <!-- FIX: Replaced garbled basket with &#129530; -->
+                <h2 class="text-3xl font-extrabold text-gray-800">Your Basket &#129530;</h2>
                 <p class="text-gray-400 font-medium">Ready for story time?</p>
             </div>
-
-            <!-- Cart Items Container -->
             <div id="cart-items" class="max-h-[50vh] overflow-y-auto pr-2 space-y-3 mb-6">
-                <!-- Items injected via JS -->
-                <div class="text-center py-8 text-gray-400">
-                    <p class="mb-2 text-4xl">ðŸ¤·â€ â™‚ï¸ </p>
-                    <p>It's empty in here!</p>
-                </div>
+                <!-- FIX: Replaced garbled shrug with &#129335; codes -->
+                <div class="text-center py-8 text-gray-400"><p class="mb-2 text-4xl">&#129335;&#8205;&#9794;&#65039;</p><p>It's empty in here!</p></div>
             </div>
-
-            <!-- Total & Checkout -->
             <div class="bg-gray-50 rounded-2xl p-4 border-2 border-gray-100">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-gray-500 font-bold">Total</span>
                     <span id="cart-total" class="text-2xl font-extrabold text-blue-600">$0.00</span>
                 </div>
+                <!-- FIX: Replaced garbled rocket with &#128640; -->
                 <button onclick="checkout()" class="w-full btn-bouncy bg-green-500 text-white py-4 rounded-xl font-bold text-lg shadow-[0px_4px_0px_0px_#15803d] hover:bg-green-600 active:shadow-none active:translate-y-1 transition-all">
-                    Checkout Now ðŸš€
+                    Checkout Now &#128640;
                 </button>
             </div>
         </div>
@@ -177,100 +119,76 @@
                 <span class="font-bold text-blue-900 text-lg">Written & Printed in Australia</span>
             </div>
             <p class="text-gray-500 font-medium mb-6">Teaching little hearts big values through stories.</p>
-            <div class="flex justify-center gap-6">
-                <a href="#" class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center text-pink-500 hover:bg-pink-200 transition btn-bouncy"><i data-lucide="instagram"></i></a>
-                <a href="#" class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-200 transition btn-bouncy"><i data-lucide="facebook"></i></a>
-                <a href="#" class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 hover:bg-yellow-200 transition btn-bouncy"><i data-lucide="mail"></i></a>
-            </div>
-            <p class="mt-8 text-sm text-gray-400">Â© 2025 Little Soul Stories. All rights reserved.</p>
+            <p class="mt-8 text-sm text-gray-400">© 2025 Little Soul Stories. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-xl translate-y-24 transition-transform duration-300 flex items-center gap-2 font-bold z-50">
-        <i data-lucide="check-circle"></i>
-        <span>Added to Cart!</span>
+        <i data-lucide="check-circle"></i> <span>Added to Cart!</span>
     </div>
 
-    <script>
-        // --- Data ---
-        
-        const categories = [
-            {
-                id: 'christianity',
-                name: 'Christianity',
-                color: 'bg-blue-500',
-                lightColor: 'bg-blue-100',
-                textColor: 'text-blue-600',
-                icon: 'cross', // lucide name
-                description: "Love is kindness! Stories about Jesus and sharing love.",
-                mascotEmoji: "ðŸ•Šï¸ "
-            },
-            {
-                id: 'islam',
-                name: 'Islam',
-                color: 'bg-green-500',
-                lightColor: 'bg-green-100',
-                textColor: 'text-green-600',
-                icon: 'moon-star',
-                description: "Peace and Charity! Learning about Allah's beautiful world.",
-                mascotEmoji: "ðŸ•Œ"
-            },
-            {
-                id: 'hinduism',
-                name: 'Hinduism',
-                color: 'bg-orange-500',
-                lightColor: 'bg-orange-100',
-                textColor: 'text-orange-600',
-                icon: 'sun',
-                description: "Goodness in everyone! Tales of brave heroes and dharma.",
-                mascotEmoji: "ðŸª·"
-            },
-            {
-                id: 'buddhism',
-                name: 'Buddhism',
-                color: 'bg-yellow-500',
-                lightColor: 'bg-yellow-100',
-                textColor: 'text-yellow-600',
-                icon: 'flower',
-                description: "Kindness to all! Walking the path of peace and wisdom.",
-                mascotEmoji: "â˜¸ï¸ "
-            },
-            {
-                id: 'sikhism',
-                name: 'Sikhism',
-                color: 'bg-purple-500',
-                lightColor: 'bg-purple-100',
-                textColor: 'text-purple-600',
-                icon: 'shield',
-                description: "Helping others! Stories of bravery, sharing and equality.",
-                mascotEmoji: "âœ¨"
-            }
-        ];
+    <script type="module">
+        // Import Firebase (FIXED: Connected to backend)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const products = [
-            { id: 1, category: 'christianity', title: "Noah's Big Boat", part: 1, price: 14.99, coverColor: 'bg-blue-400' },
-            { id: 2, category: 'christianity', title: "The Kind Samaritan", part: 1, price: 14.99, coverColor: 'bg-blue-300' },
-            { id: 3, category: 'christianity', title: "Baby Jesus Arrives", part: 1, price: 14.99, coverColor: 'bg-blue-500' },
-            { id: 4, category: 'islam', title: "Ramadan Moon", part: 1, price: 14.99, coverColor: 'bg-green-400' },
-            { id: 5, category: 'islam', title: "The Prophet's Kindness", part: 1, price: 14.99, coverColor: 'bg-green-500' },
-            { id: 6, category: 'islam', title: "Giving Zakat", part: 2, price: 14.99, coverColor: 'bg-green-300' },
-            { id: 7, category: 'hinduism', title: "Ganesha's Sweet Tooth", part: 1, price: 14.99, coverColor: 'bg-orange-400' },
-            { id: 8, category: 'hinduism', title: "Rama & The Bridge", part: 1, price: 14.99, coverColor: 'bg-orange-300' },
-            { id: 9, category: 'hinduism', title: "Diwali Lights", part: 1, price: 14.99, coverColor: 'bg-orange-500' },
-            { id: 10, category: 'buddhism', title: "Under the Bodhi Tree", part: 1, price: 14.99, coverColor: 'bg-yellow-400' },
-            { id: 11, category: 'buddhism', title: "The Elephant's Lesson", part: 1, price: 14.99, coverColor: 'bg-yellow-500' },
-            { id: 12, category: 'sikhism', title: "Guru Nanak's Travels", part: 1, price: 14.99, coverColor: 'bg-purple-400' },
-            { id: 13, category: 'sikhism', title: "The Golden Temple", part: 1, price: 14.99, coverColor: 'bg-purple-500' }
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let products = [];
+        
+        // FIX: Replaced all garbled emojis in categories with HTML Entities
+        let categories = [
+            { id: 'christianity', name: 'Christianity', color: 'bg-blue-500', lightColor: 'bg-blue-100', textColor: 'text-blue-600', icon: 'cross', description: "Love is kindness! Stories about Jesus and sharing love.", mascotEmoji: "&#128330;&#65039;" }, // Dove
+            { id: 'islam', name: 'Islam', color: 'bg-green-500', lightColor: 'bg-green-100', textColor: 'text-green-600', icon: 'moon-star', description: "Peace and Charity! Learning about Allah's beautiful world.", mascotEmoji: "&#128332;" }, // Mosque
+            { id: 'hinduism', name: 'Hinduism', color: 'bg-orange-500', lightColor: 'bg-orange-100', textColor: 'text-orange-600', icon: 'sun', description: "Goodness in everyone! Tales of brave heroes and dharma.", mascotEmoji: "&#129719;" }, // Lotus
+            { id: 'buddhism', name: 'Buddhism', color: 'bg-yellow-500', lightColor: 'bg-yellow-100', textColor: 'text-yellow-600', icon: 'flower', description: "Kindness to all! Walking the path of peace and wisdom.", mascotEmoji: "&#9784;&#65039;" }, // Wheel
+            { id: 'sikhism', name: 'Sikhism', color: 'bg-purple-500', lightColor: 'bg-purple-100', textColor: 'text-purple-600', icon: 'shield', description: "Helping others! Stories of bravery, sharing and equality.", mascotEmoji: "&#10024;" } // Sparkles
         ];
 
         let cartItems = [];
 
-        // --- View Logic ---
+        // Init Auth & DB
+        async function init() {
+            try {
+                if(typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                   await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                   await signInAnonymously(auth);
+                }
+            } catch (error) { console.error("Auth error", error); }
 
-        function renderHome() {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+                    onSnapshot(prodRef, (snapshot) => {
+                        products = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                        renderHome();
+                    }, (error) => console.log("DB Error:", error));
+                }
+            });
+        }
+        init();
+
+        // Export functions to window so vanilla onclicks work
+        window.renderHome = () => {
             const content = document.getElementById('app-content');
-            
+            if (products.length === 0) {
+                 content.innerHTML = `
+                    <div class="text-center py-20">
+                        <!-- FIX: Replaced garbled mailbox -->
+                        <div class="inline-block p-4 rounded-full bg-gray-100 mb-4 animate-bounce-slow text-4xl">&#128237;</div>
+                        <h2 class="text-2xl font-bold text-gray-700">No stories found yet.</h2>
+                        <p class="text-gray-500 mt-2">Please visit the <a href="admin.html" class="text-blue-500 underline font-bold">Admin Panel</a> to add books!</p>
+                    </div>`;
+                return;
+            }
+
             let categoriesHtml = categories.map(cat => `
                 <div onclick="renderCategory('${cat.id}')" class="cursor-pointer sticker-card group relative overflow-hidden rounded-3xl bg-white p-6 flex flex-col items-center justify-center gap-4 border-b-8 border-gray-100 h-64">
                     <div class="absolute top-0 left-0 w-full h-2 ${cat.color}"></div>
@@ -285,62 +203,31 @@
             `).join('');
 
             content.innerHTML = `
-                <!-- Hero Section -->
                 <div class="text-center mb-16 mt-8 animate-pop">
-                    <div class="inline-block bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-sm font-bold mb-4 shadow-sm animate-wiggle">
-                        ðŸ‡¦ðŸ‡º Aussie Owned & Loved
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-800 mb-6 leading-tight">
-                        Stories that grow <br>
-                        <span class="text-pink-500">Little</span> <span class="text-blue-500">Souls</span>
-                    </h1>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8 font-medium">
-                        Fun, install-sized stories to teach kindness, faith, and love. Pick a path below!
-                    </p>
+                    <!-- FIX: Replaced garbled flag with &#127462;&#127482; -->
+                    <div class="inline-block bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-sm font-bold mb-4 shadow-sm animate-wiggle">&#127462;&#127482; Aussie Owned & Loved</div>
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-800 mb-6 leading-tight">Stories that grow <br><span class="text-pink-500">Little</span> <span class="text-blue-500">Souls</span></h1>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8 font-medium">Fun, install-sized stories to teach kindness, faith, and love.</p>
                     <div class="flex justify-center gap-4">
-                        <button onclick="document.getElementById('cats').scrollIntoView({behavior: 'smooth'})" class="btn-bouncy bg-blue-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-[0px_6px_0px_0px_#1e40af] hover:bg-blue-600">
-                            Start Reading
-                        </button>
+                        <button onclick="document.getElementById('cats').scrollIntoView({behavior: 'smooth'})" class="btn-bouncy bg-blue-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-[0px_6px_0px_0px_#1e40af] hover:bg-blue-600">Start Reading</button>
                     </div>
                 </div>
-
-                <!-- Features / Illustration -->
                 <div class="grid md:grid-cols-3 gap-6 mb-20">
-                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-pink-200">
-                        <div class="text-4xl mb-4">ðŸ“š</div>
-                        <h3 class="text-xl font-bold text-pink-500 mb-2">Part 1, 2, 3...</h3>
-                        <p class="text-gray-500">Small anecdotal stories that grow with your child. Collect them all!</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-green-200">
-                        <div class="text-4xl mb-4">ðŸŽ¨</div>
-                        <h3 class="text-xl font-bold text-green-500 mb-2">Fun Cartoons</h3>
-                        <p class="text-gray-500">Every page is filled with bright, respectful custom illustrations.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-purple-200">
-                        <div class="text-4xl mb-4">ðŸ‡¦ðŸ‡º</div>
-                        <h3 class="text-xl font-bold text-purple-500 mb-2">Local Goodness</h3>
-                        <p class="text-gray-500">Written and printed right here in Australia for local families.</p>
-                    </div>
+                    <!-- FIX: Replaced garbled books, palette, flag -->
+                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-pink-200"><div class="text-4xl mb-4">&#128218;</div><h3 class="text-xl font-bold text-pink-500 mb-2">Part 1, 2, 3...</h3><p class="text-gray-500">Small anecdotal stories that grow with your child.</p></div>
+                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-green-200"><div class="text-4xl mb-4">&#127912;</div><h3 class="text-xl font-bold text-green-500 mb-2">Fun Cartoons</h3><p class="text-gray-500">Every page is filled with bright custom illustrations.</p></div>
+                    <div class="bg-white p-6 rounded-3xl sticker-card border-b-4 border-purple-200"><div class="text-4xl mb-4">&#127462;&#127482;</div><h3 class="text-xl font-bold text-purple-500 mb-2">Local Goodness</h3><p class="text-gray-500">Written and printed in Australia.</p></div>
                 </div>
-
-                <!-- Categories -->
                 <div id="cats" class="mb-10 text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 inline-block relative">
-                        Pick a Religion
-                        <svg class="absolute -bottom-2 left-0 w-full h-3 text-yellow-400" viewBox="0 0 100 10" preserveAspectRatio="none">
-                            <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="none" />
-                        </svg>
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        ${categoriesHtml}
-                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 inline-block relative">Pick a Religion<svg class="absolute -bottom-2 left-0 w-full h-3 text-yellow-400" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="none" /></svg></h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">${categoriesHtml}</div>
                 </div>
             `;
             lucide.createIcons();
             window.scrollTo(0, 0);
-        }
+        };
 
-        function renderCategory(catId) {
+        window.renderCategory = (catId) => {
             const cat = categories.find(c => c.id === catId);
             const catProducts = products.filter(p => p.category === catId);
             const content = document.getElementById('app-content');
@@ -348,170 +235,109 @@
             let booksHtml = catProducts.map(book => `
                 <div class="bg-white rounded-3xl p-4 sticker-card flex flex-col h-full border-2 border-gray-50">
                     <div class="${book.coverColor} rounded-2xl h-48 w-full mb-4 flex items-center justify-center relative overflow-hidden group">
-                        <span class="text-6xl group-hover:scale-110 transition-transform duration-300">ðŸ“–</span>
-                        <div class="absolute bottom-2 right-2 bg-white/30 backdrop-blur px-2 py-1 rounded-lg text-white text-xs font-bold">
-                            Part ${book.part}
-                        </div>
+                        <!-- FIX: Replaced garbled open book -->
+                        <span class="text-6xl group-hover:scale-110 transition-transform duration-300">&#128214;</span>
+                        <div class="absolute bottom-2 right-2 bg-white/30 backdrop-blur px-2 py-1 rounded-lg text-white text-xs font-bold">Part ${book.part}</div>
                     </div>
                     <h3 class="font-bold text-lg text-gray-800 leading-tight mb-1">${book.title}</h3>
                     <p class="text-gray-400 text-sm mb-4">Installment #${book.part}</p>
-                    
                     <div class="mt-auto flex justify-between items-center">
                         <span class="font-bold text-xl text-gray-800">$${book.price}</span>
-                        <button onclick="addToCart(${book.id})" class="btn-bouncy ${cat.color} text-white p-2 rounded-xl shadow-md hover:brightness-110">
-                            <span class="font-bold text-sm px-2">Add</span>
-                        </button>
+                        <button onclick="addToCart('${book.id}')" class="btn-bouncy ${cat.color} text-white p-2 rounded-xl shadow-md hover:brightness-110"><span class="font-bold text-sm px-2">Add</span></button>
                     </div>
                 </div>
             `).join('');
 
-            // If no books mock data
-            if(catProducts.length === 0) {
-                booksHtml = `<div class="col-span-full text-center py-12 text-gray-400 font-bold text-xl">New stories coming soon! ðŸš§</div>`;
-            }
+            // FIX: Replaced garbled construction sign
+            if(catProducts.length === 0) booksHtml = `<div class="col-span-full text-center py-12 text-gray-400 font-bold text-xl">New stories coming soon! &#128679;</div>`;
 
             content.innerHTML = `
                 <div class="animate-pop">
-                    <!-- Category Header -->
                     <div class="${cat.lightColor} rounded-[3rem] p-8 md:p-12 mb-12 relative overflow-hidden">
                         <div class="relative z-10 text-center md:text-left">
-                            <button onclick="renderHome()" class="mb-4 text-sm font-bold bg-white/50 hover:bg-white px-4 py-2 rounded-full transition text-gray-600 inline-flex items-center gap-1">
-                                <i data-lucide="arrow-left" size="16"></i> Back to all
-                            </button>
+                            <button onclick="renderHome()" class="mb-4 text-sm font-bold bg-white/50 hover:bg-white px-4 py-2 rounded-full transition text-gray-600 inline-flex items-center gap-1"><i data-lucide="arrow-left" size="16"></i> Back to all</button>
                             <div class="flex flex-col md:flex-row items-center gap-6">
-                                <div class="bg-white p-6 rounded-full shadow-lg animate-bounce-slow">
-                                    <div class="text-6xl">${cat.mascotEmoji}</div>
-                                </div>
-                                <div>
-                                    <h1 class="text-4xl md:text-5xl font-extrabold ${cat.textColor} mb-2">${cat.name} Books</h1>
-                                    <p class="text-xl md:text-2xl text-gray-600 font-medium font-cursive">"${cat.description}"</p>
-                                </div>
+                                <div class="bg-white p-6 rounded-full shadow-lg animate-bounce-slow"><div class="text-6xl">${cat.mascotEmoji}</div></div>
+                                <div><h1 class="text-4xl md:text-5xl font-extrabold ${cat.textColor} mb-2">${cat.name} Books</h1><p class="text-xl md:text-2xl text-gray-600 font-medium font-cursive">"${cat.description}"</p></div>
                             </div>
                         </div>
-                        
-                        <!-- Decorative bg elements -->
-                        <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                             <i data-lucide="${cat.icon}" class="w-96 h-96 ${cat.textColor}"></i>
-                        </div>
+                        <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4"><i data-lucide="${cat.icon}" class="w-96 h-96 ${cat.textColor}"></i></div>
                     </div>
-
-                    <!-- Filter / Installments info -->
-                    <div class="flex items-center gap-4 mb-8 overflow-x-auto pb-2">
-                        <span class="whitespace-nowrap font-bold text-gray-400 uppercase text-xs tracking-wider">Filter by:</span>
-                        <button class="px-6 py-2 bg-black text-white rounded-full font-bold shadow-md hover:bg-gray-800 transition whitespace-nowrap">All Parts</button>
-                        <button class="px-6 py-2 bg-white text-gray-600 border-2 border-gray-100 rounded-full font-bold hover:bg-gray-50 transition whitespace-nowrap">Part 1</button>
-                        <button class="px-6 py-2 bg-white text-gray-600 border-2 border-gray-100 rounded-full font-bold hover:bg-gray-50 transition whitespace-nowrap">Part 2</button>
-                    </div>
-
-                    <!-- Books Grid -->
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        ${booksHtml}
-                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">${booksHtml}</div>
                 </div>
             `;
             lucide.createIcons();
             window.scrollTo(0, 0);
-        }
+        };
 
-        // --- Cart Logic ---
+        window.goHome = () => renderHome();
 
-        function toggleCart() {
+        // Cart
+        window.toggleCart = () => {
             const modal = document.getElementById('cart-modal');
-            const isHidden = modal.classList.contains('hidden');
-            
-            if (isHidden) {
-                renderCart();
-                modal.classList.remove('hidden');
-                // Allow animation to play
-            } else {
-                modal.classList.add('hidden');
-            }
-        }
+            if (modal.classList.contains('hidden')) { renderCart(); modal.classList.remove('hidden'); }
+            else { modal.classList.add('hidden'); }
+        };
 
-        function addToCart(productId) {
+        window.addToCart = (productId) => {
             const product = products.find(p => p.id === productId);
             if (product) {
                 cartItems.push(product);
                 updateCartCount();
-                
-                // Show Toast
                 const toast = document.getElementById('toast');
-                toast.querySelector('span').innerText = "Added to Basket!";
                 toast.classList.remove('translate-y-24');
-                setTimeout(() => {
-                    toast.classList.add('translate-y-24');
-                }, 2000);
+                setTimeout(() => toast.classList.add('translate-y-24'), 2000);
             }
-        }
+        };
 
-        function removeFromCart(index) {
+        window.removeFromCart = (index) => {
             cartItems.splice(index, 1);
             updateCartCount();
             renderCart();
-        }
+        };
 
         function updateCartCount() {
             const cartBadge = document.getElementById('cart-count');
             cartBadge.innerText = cartItems.length;
-            
-            // Trigger badge animation
             cartBadge.classList.add('scale-125');
             setTimeout(() => cartBadge.classList.remove('scale-125'), 200);
         }
 
         function renderCart() {
-            const cartContainer = document.getElementById('cart-items');
+            const container = document.getElementById('cart-items');
             const totalEl = document.getElementById('cart-total');
-            
             if (cartItems.length === 0) {
-                cartContainer.innerHTML = `
-                    <div class="text-center py-8 text-gray-400">
-                        <p class="mb-2 text-5xl animate-bounce-slow">ðŸ§º</p>
-                        <p class="font-bold">Your basket is empty!</p>
-                    </div>
-                `;
+                // FIX: Replaced garbled shrug
+                container.innerHTML = `<div class="text-center py-8 text-gray-400"><p class="mb-2 text-5xl animate-bounce-slow">&#129335;&#8205;&#9794;&#65039;</p><p class="font-bold">Your basket is empty!</p></div>`;
                 totalEl.innerText = "$0.00";
                 return;
             }
-
             let total = 0;
-            const itemsHtml = cartItems.map((item, index) => {
+            container.innerHTML = cartItems.map((item, index) => {
                 total += item.price;
-                return `
-                <div class="flex items-center gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-100">
-                    <div class="${item.coverColor || 'bg-gray-200'} w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0">
-                        ðŸ“–
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-gray-700 text-sm leading-tight">${item.title}</h4>
-                        <p class="text-xs text-gray-400">Part ${item.part}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold text-gray-800">$${item.price}</p>
-                        <button onclick="removeFromCart(${index})" class="text-red-400 text-xs font-bold hover:text-red-600">Remove</button>
-                    </div>
-                </div>
-                `;
+                // FIX: Replaced garbled open book
+                return `<div class="flex items-center gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-100"><div class="${item.coverColor || 'bg-gray-200'} w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0">&#128214;</div><div class="flex-1"><h4 class="font-bold text-gray-700 text-sm leading-tight">${item.title}</h4><p class="text-xs text-gray-400">Part ${item.part}</p></div><div class="text-right"><p class="font-bold text-gray-800">$${item.price}</p><button onclick="removeFromCart(${index})" class="text-red-400 text-xs font-bold hover:text-red-600">Remove</button></div></div>`;
             }).join('');
-
-            cartContainer.innerHTML = itemsHtml;
             totalEl.innerText = "$" + total.toFixed(2);
         }
 
-        function checkout() {
+        window.checkout = async () => {
             if (cartItems.length === 0) return;
-            alert("Woohoo! Redirecting to secure checkout... (Prototype End)");
-            toggleCart();
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            
+            // Write to DB
+            const orderRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+            await addDoc(orderRef, {
+                items: cartItems.map(i => ({title: i.title, price: i.price, id: i.id})),
+                total: total,
+                timestamp: Date.now()
+            });
+
+            alert("Order placed! You can see it in the Admin Dashboard now.");
+            window.toggleCart();
             cartItems = [];
             updateCartCount();
-        }
-
-        function goHome() {
-            renderHome();
-        }
-
-        // Initial Render
-        renderHome();
+        };
 
     </script>
 </body>
