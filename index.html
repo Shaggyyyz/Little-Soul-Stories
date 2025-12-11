@@ -127,15 +127,21 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+      import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
+      // TODO: Replace with your actual Firebase project config from Firebase Console
+      // Go to: Firebase Console > Project Settings > General > Your apps > Web app
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY_HERE",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };        const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
+      const appId = "little-soul-stories";  // Fixed app ID for both files
         let products = [];
         let categories = [
             { id: 'christianity', name: 'Christianity', color: 'bg-blue-500', lightColor: 'bg-blue-100', textColor: 'text-blue-600', icon: 'cross', description: "Love is kindness! Stories about Jesus and sharing love.", mascotEmoji: "&#128330;&#65039;" }, 
@@ -152,11 +158,7 @@
         // Init Auth & DB
         async function init() {
             try {
-                if(typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                   await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                   await signInAnonymously(auth);
-                }
+                await signInAnonymously(auth);
             } catch (error) { 
                 console.error("Auth error", error); 
                 loadingError = "Could not verify user. " + error.message;
