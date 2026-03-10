@@ -1,0 +1,499 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Calculator, BarChart3, BadgeCheck, ShieldCheck, Clock3, TrendingUp, Landmark, ChevronRight, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const floatAnim = {
+  y: [0, -12, 0],
+  transition: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+};
+
+const services = [
+  {
+    icon: Calculator,
+    title: "Bookkeeping & BAS",
+    text: "Clean records, accurate reporting, and less time wasted on admin.",
+  },
+  {
+    icon: Landmark,
+    title: "Tax Planning",
+    text: "Practical tax strategies built around your business structure and goals.",
+  },
+  {
+    icon: BarChart3,
+    title: "Business Reporting",
+    text: "Dashboards and insights that show where money is going and what to fix.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Growth Advisory",
+    text: "Cash flow planning, forecasting, and decision support for growth.",
+  },
+];
+
+const features = [
+  "Clear monthly reporting",
+  "Fast response times",
+  "Simple onboarding",
+  "Cloud accounting support",
+  "Transparent pricing",
+  "Year-round tax guidance",
+];
+
+const stats = [
+  { value: "500+", label: "Reports delivered" },
+  { value: "98%", label: "Client retention" },
+  { value: "24h", label: "Average response" },
+  { value: "$2.4M", label: "Costs identified" },
+];
+
+const testimonials = [
+  {
+    name: "Ava Patel",
+    role: "Retail Business Owner",
+    quote:
+      "Sahil Accounting replaced messy spreadsheets with clear monthly reporting. I finally know what the numbers are saying.",
+  },
+  {
+    name: "Daniel Nguyen",
+    role: "Construction Director",
+    quote:
+      "The forecasting and cash flow support changed how we plan projects. It is direct, practical, and actually useful.",
+  },
+  {
+    name: "Emily Ross",
+    role: "E-commerce Founder",
+    quote:
+      "Fast communication, strong tax guidance, and clean systems. Exactly what a growing business needs.",
+  },
+];
+
+function AnimatedOrb({ className }: { className?: string }) {
+  return (
+    <motion.div
+      className={`absolute rounded-full blur-3xl opacity-40 ${className}`}
+      animate={{
+        scale: [1, 1.1, 1],
+        x: [0, 20, 0],
+        y: [0, -20, 0],
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+    />
+  );
+}
+
+export default function SahilAccountingLandingPage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
+      <div className="relative">
+        <AnimatedOrb className="h-72 w-72 bg-cyan-500 top-10 left-[-4rem]" />
+        <AnimatedOrb className="h-80 w-80 bg-violet-500 top-32 right-[-5rem]" />
+        <AnimatedOrb className="h-64 w-64 bg-emerald-500 bottom-[-2rem] left-1/3" />
+
+        <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/60 border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3"
+            >
+              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <span className="font-black text-sm">SA</span>
+              </div>
+              <div>
+                <div className="font-semibold tracking-wide">Sahil Accounting</div>
+                <div className="text-xs text-slate-400">Modern accounting for growing businesses</div>
+              </div>
+            </motion.div>
+
+            <nav className="hidden md:flex items-center gap-8 text-sm text-slate-300">
+              {['Services', 'Why Us', 'Results', 'Contact'].map((item, i) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + i * 0.08 }}
+                  className="hover:text-white transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute left-0 -bottom-1 h-px w-0 bg-cyan-400 transition-all duration-300 group-hover:w-full" />
+                </motion.a>
+              ))}
+            </nav>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+              <Button className="rounded-2xl px-5 bg-white text-slate-950 hover:bg-slate-200">
+                Book a Consultation
+              </Button>
+            </motion.div>
+          </div>
+        </header>
+
+        <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-24 lg:pt-28">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.div
+                className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200 mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <BadgeCheck className="h-4 w-4" />
+                Trusted accounting support for modern businesses
+              </motion.div>
+
+              <motion.h1
+                className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                Numbers that
+                <span className="block bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
+                  actually drive decisions.
+                </span>
+              </motion.h1>
+
+              <motion.p
+                className="mt-6 text-lg text-slate-300 max-w-xl leading-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+              >
+                Sahil Accounting helps businesses stay compliant, understand cash flow, reduce noise in reporting, and make decisions faster.
+              </motion.p>
+
+              <motion.div
+                className="mt-8 flex flex-col sm:flex-row gap-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+              >
+                <Button size="lg" className="rounded-2xl px-6 py-6 text-base bg-cyan-400 text-slate-950 hover:bg-cyan-300">
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-2xl px-6 py-6 text-base border-white/15 bg-white/5 hover:bg-white/10">
+                  View Services
+                </Button>
+              </motion.div>
+
+              <motion.div
+                className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    custom={i}
+                    variants={fadeUp}
+                    className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur"
+                  >
+                    <div className="text-2xl font-bold">{stat.value}</div>
+                    <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              <motion.div
+                animate={floatAnim}
+                className="relative rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-2xl shadow-2xl shadow-cyan-500/10"
+              >
+                <div className="rounded-[1.5rem] overflow-hidden border border-white/10 bg-slate-900">
+                  <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
+                    <div>
+                      <div className="text-sm text-slate-400">Financial Overview</div>
+                      <div className="font-semibold">Quarterly performance</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="h-3 w-3 rounded-full bg-rose-400" />
+                      <span className="h-3 w-3 rounded-full bg-amber-400" />
+                      <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                    </div>
+                  </div>
+
+                  <div className="p-5 space-y-5">
+                    <div className="grid grid-cols-3 gap-3">
+                      {["Revenue", "Expenses", "Margin"].map((label, i) => (
+                        <motion.div
+                          key={label}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4 + i * 0.1 }}
+                          className="rounded-2xl bg-slate-800/80 p-4"
+                        >
+                          <div className="text-xs text-slate-400">{label}</div>
+                          <div className="mt-2 text-lg font-bold">
+                            {i === 0 ? "$184K" : i === 1 ? "$117K" : "36.4%"}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <div className="rounded-2xl bg-slate-800/60 p-4">
+                      <div className="flex items-end gap-3 h-44">
+                        {[45, 70, 55, 88, 72, 96, 83, 112].map((h, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ height: 0, opacity: 0.4 }}
+                            animate={{ height: `${h}%`, opacity: 1 }}
+                            transition={{ duration: 0.9, delay: 0.5 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                            className="flex-1 rounded-t-2xl bg-gradient-to-t from-cyan-500 via-blue-500 to-violet-500 shadow-lg shadow-cyan-500/20"
+                          />
+                        ))}
+                      </div>
+                      <div className="mt-4 flex justify-between text-xs text-slate-500">
+                        {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'].map((m) => (
+                          <span key={m}>{m}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-emerald-400/10 border border-emerald-400/20 p-4">
+                        <div className="text-sm text-emerald-200">Cash flow stable</div>
+                        <div className="text-xs text-slate-400 mt-1">Forecast risk reduced by 18%</div>
+                      </div>
+                      <div className="rounded-2xl bg-violet-400/10 border border-violet-400/20 p-4">
+                        <div className="text-sm text-violet-200">Tax estimate ready</div>
+                        <div className="text-xs text-slate-400 mt-1">Next lodgement prepared early</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="absolute -left-8 top-10 rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl p-4 hidden md:block"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                <ShieldCheck className="h-8 w-8 text-cyan-300" />
+                <div className="mt-2 text-sm font-medium">Compliance Covered</div>
+              </motion.div>
+
+              <motion.div
+                className="absolute -right-6 bottom-8 rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl p-4 hidden md:block"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity }}
+              >
+                <Clock3 className="h-8 w-8 text-violet-300" />
+                <div className="mt-2 text-sm font-medium">Time Back Every Month</div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+
+      <section id="services" className="max-w-7xl mx-auto px-6 py-24">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="max-w-2xl"
+        >
+          <motion.div variants={fadeUp} className="text-cyan-300 text-sm font-semibold tracking-[0.2em] uppercase">
+            Services
+          </motion.div>
+          <motion.h2 variants={fadeUp} custom={1} className="mt-4 text-4xl md:text-5xl font-black tracking-tight">
+            Built for businesses that need more than basic bookkeeping.
+          </motion.h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-12">
+          {services.map((service, i) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={service.title}
+                variants={fadeUp}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                whileHover={{ y: -8, scale: 1.01 }}
+              >
+                <Card className="h-full rounded-[2rem] border-white/10 bg-white/5 backdrop-blur-xl text-white overflow-hidden group">
+                  <CardContent className="p-6">
+                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-violet-400/20 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Icon className="h-7 w-7 text-cyan-300" />
+                    </div>
+                    <h3 className="mt-6 text-xl font-semibold">{service.title}</h3>
+                    <p className="mt-3 text-slate-400 leading-7">{service.text}</p>
+                    <div className="mt-6 inline-flex items-center text-sm text-cyan-300">
+                      Learn more <ChevronRight className="h-4 w-4 ml-1" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section id="why-us" className="relative max-w-7xl mx-auto px-6 py-24">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="text-cyan-300 text-sm font-semibold tracking-[0.2em] uppercase">Why Sahil Accounting</div>
+            <h2 className="mt-4 text-4xl md:text-5xl font-black tracking-tight">
+              Straight answers, cleaner systems, better financial control.
+            </h2>
+            <p className="mt-6 text-slate-400 text-lg leading-8 max-w-xl">
+              Most businesses do not have a reporting problem. They have a clarity problem. This is built to fix that.
+            </p>
+
+            <div className="mt-8 grid sm:grid-cols-2 gap-4">
+              {features.map((item, i) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 flex items-center gap-3"
+                >
+                  <div className="h-8 w-8 rounded-full bg-cyan-400/15 flex items-center justify-center">
+                    <BadgeCheck className="h-4 w-4 text-cyan-300" />
+                  </div>
+                  <span className="text-slate-200">{item}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="grid gap-5"
+          >
+            {["Messy books create bad decisions", "Cash flow issues rarely appear without warning", "Tax should be planned, not reacted to"].map((line, i) => (
+              <motion.div
+                key={line}
+                whileHover={{ scale: 1.02, x: 6 }}
+                className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-6 backdrop-blur-xl"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-cyan-300 font-bold">
+                    0{i + 1}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold">{line}</h3>
+                    <p className="mt-2 text-slate-400 leading-7">
+                      The fix is not more noise. It is better structure, reporting, and review discipline.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="results" className="max-w-7xl mx-auto px-6 py-24">
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <div>
+            <div className="text-cyan-300 text-sm font-semibold tracking-[0.2em] uppercase">Results</div>
+            <h2 className="mt-4 text-4xl md:text-5xl font-black tracking-tight">What clients actually notice.</h2>
+          </div>
+          <div className="flex items-center gap-1 text-amber-300">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Star key={i} className="h-5 w-5 fill-current" />
+            ))}
+            <span className="ml-2 text-slate-300 text-sm">Rated by business owners</span>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6 mt-12">
+          {testimonials.map((item, i) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12 }}
+              whileHover={{ y: -6 }}
+            >
+              <Card className="h-full rounded-[2rem] border-white/10 bg-white/5 text-white backdrop-blur-xl">
+                <CardContent className="p-7">
+                  <div className="flex gap-1 text-amber-300 mb-5">
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <Star key={s} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-slate-200 leading-8">“{item.quote}”</p>
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <div className="font-semibold">{item.name}</div>
+                    <div className="text-sm text-slate-400 mt-1">{item.role}</div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <section id="contact" className="max-w-7xl mx-auto px-6 py-24 pb-28">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-cyan-500/10 via-white/5 to-violet-500/10 p-8 md:p-12 backdrop-blur-xl"
+        >
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="text-cyan-300 text-sm font-semibold tracking-[0.2em] uppercase">Contact</div>
+              <h2 className="mt-4 text-4xl md:text-5xl font-black tracking-tight">
+                Get control of your numbers.
+              </h2>
+              <p className="mt-5 text-slate-300 text-lg leading-8 max-w-xl">
+                Book a consultation to review your bookkeeping, reporting, tax planning, or cash flow process.
+              </p>
+            </div>
+
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              className="rounded-[2rem] border border-white/10 bg-slate-950/50 p-6"
+            >
+              <div className="grid gap-4">
+                <Input placeholder="Your name" className="h-12 rounded-2xl border-white/10 bg-white/5 text-white placeholder:text-slate-500" />
+                <Input placeholder="Email address" className="h-12 rounded-2xl border-white/10 bg-white/5 text-white placeholder:text-slate-500" />
+                <Input placeholder="Business name" className="h-12 rounded-2xl border-white/10 bg-white/5 text-white placeholder:text-slate-500" />
+                <textarea
+                  placeholder="What do you need help with?"
+                  className="min-h-[130px] rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder:text-slate-500 outline-none focus:ring-2 focus:ring-cyan-400/40"
+                />
+                <Button className="h-12 rounded-2xl bg-white text-slate-950 hover:bg-slate-200 text-base font-semibold">
+                  Request Consultation
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+    </div>
+  );
+}
